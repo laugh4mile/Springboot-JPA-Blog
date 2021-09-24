@@ -14,13 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 // 사용자의 요청 -> 응답(data) 
 @RestController
 public class HttpController {
-	
+	private static final String TAG = "HttpController : ";
 	//인터넷 브라우저 요청은 무조건 get 요청밖에 할 수 없다.
 	//http://localhost:8080/http/get (select)
 	// 데이터를 get방식으로 요청하는 방법은 쿼리 스트링밖에 없다.
 		// id=1&username=ssar&password=1234&email=ssar@nate.com 
+	@GetMapping("/http/lombok") 
+	public String lombokTest() {
+		Member m = Member.builder().username("ssar").password("1234").email("ssar@nate.com").build();
+		System.out.println(TAG+"getter : "+ m.getUsername());
+		m.setUsername("cos");
+		System.out.println(TAG+"setter : "+ m.getUsername());
+		return "lombok test 완료";
+	}
+	
 	@GetMapping("/http/get") 
-	public String getTest(@RequestBody Member m) {
+	public String getTest(Member m) {
 		return "get 요청 : "+m.getId()+", "+m.getUsername()+", "+m.getPassword()+", "+m.getEmail();
 	}
 	 
