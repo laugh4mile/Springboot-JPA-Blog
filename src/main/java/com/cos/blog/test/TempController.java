@@ -14,4 +14,14 @@ public class TempController {
 		// 리턴명 : /home.html
 		return "/home.html";
 	}
+	
+	@GetMapping("/temp/img")
+	public String tempImg() {
+		return "/a.png";
+	}
+	
+	@GetMapping("/temp/jsp")
+	public String tempJsp() {
+		return "test";
+	}
 }
