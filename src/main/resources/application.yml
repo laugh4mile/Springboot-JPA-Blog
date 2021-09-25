@@ -13,7 +13,7 @@ spring:
       prefix: /WEB-INF/views/
       suffix: .jsp
       
-  datasource:
+  datasource: # db 설정.
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
     username: cos
@@ -22,13 +22,13 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: create #첫 시작에만 create 해야 한다. 
       naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      use-new-id-generator-mappings: false
-    show-sql: true
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl # Entity를 만들때 변수명 그대로 테이블에 넣어준다.
+      use-new-id-generator-mappings: false # jpa의 기본 전략을 따라갈지 여부. 
+    show-sql: true # 콘솔에 sql의 표시 여부.
     properties:
-      hibernate.format_sql: true
+      hibernate.format_sql: true # 이거 안하면 sql문이 한줄로 길~게 나옴. 가독성이 좋아진다!
 
   jackson:
     serialization:
