@@ -22,7 +22,7 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create #첫 시작에만 create 해야 한다. 
+      ddl-auto: update #첫 시작에만 create 해야 한다. 
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl # Entity를 만들때 변수명 그대로 테이블에 넣어준다.
       use-new-id-generator-mappings: false # jpa의 기본 전략을 따라갈지 여부. 
