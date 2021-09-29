@@ -30,16 +30,16 @@ import lombok.NoArgsConstructor;
 public class Board {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment 쓴다는 의미임.
 	private int id;
 	
 	@Column(nullable = false, length = 100)
 	private String title;
 	
-	@Lob // 대용량 데이터
-	private String content; // 섬머노트 라이브러리를 쓸거임 // <html>태그가 섞여서 디자인 됨 -> 겁나 길어짐
+	@Lob // 대용량 데이터를 쓸때 씀
+	private String content; // 우리는 섬머노트 라이브러리를 쓸거임 // <html>태그가 섞여서 디자인 됨 -> 겁나 길어짐
 	
-	@ColumnDefault("0")
+	@ColumnDefault("0") // User 테이블을 만들때는 "''" 로 했지만 count는 int 값이기 때문에 ''는 제외한다
 	private int count; // 조회수
 	
 	@ManyToOne(fetch = FetchType.EAGER) // Board가 Many User는 One // 한명의 유저는 여러개의 게시글을 쓸 수 있다는 거임.
