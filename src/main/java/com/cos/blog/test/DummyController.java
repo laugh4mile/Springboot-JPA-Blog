@@ -12,7 +12,7 @@ import com.cos.blog.repository.UserRepository;
 public class DummyController {
 	
 	@Autowired // Spring이 DummyController를 메모리에 띄울 때, UserRepository도 같이 띄운다!  // 이것이 DI : 의존성 주입이다!!!
-	private UserRepository userRepository;
+	private UserRepository userRepository; // UserRepository 타입으로 Spring이 관리하는 객체가 있다면 변수에 넣어달란 의미
 	
 	// http://localhost:8000/blog/dummy/join
 	// http 의 body에 username, password, email 데이터를 가지고 요청
@@ -26,7 +26,7 @@ public class DummyController {
 		System.out.println("createDate : "+user.getCreateDate());
 		
 		user.setRole(RoleType.USER);
-		userRepository.save(user);
+		userRepository.save(user); // save = insert
 		return "회원가입이 완료되었습니다.";
 	}
 }

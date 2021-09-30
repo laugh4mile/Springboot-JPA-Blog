@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity // User 클래스가 MySQL에 테이블이 생성된다.
+@Entity // User 클래스가 MySQL에 테이블이 생성된다. 이거 안쓰고 Controller에서 setters를 쓴다. 어노테이션은 많으면 보기 좋이 않다.
 // @DynamicInsert // insert시에 null 인 필드를 자동으로 제외한다!
 public class User {
 	
