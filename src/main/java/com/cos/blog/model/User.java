@@ -40,7 +40,7 @@ public class User {
 	private String email;
 	
 //	@ColumnDefault("'user'") // 따옴표 꼭 써야함. // 이런 애들 같은 경우는 Enum을 사용해서 더 효율적으로 바꿀 수 있다.
-	// DB는 RoleType이 없다. 따라서 어노테이션을 붙인다.
+	// DB는 RoleType이 없다. 따라서 @Enumerated 어노테이션을 붙여서 해당 Enum이 String임을 알려줘야한다.
 	@Enumerated(EnumType.STRING)
 	private RoleType role; // Enum을 쓰는게 좋다. // admin, user, manager
 	
