@@ -1,6 +1,10 @@
 package com.cos.blog.test;
 
+import java.util.function.Supplier;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +17,38 @@ public class DummyController {
 	
 	@Autowired // Spring이 DummyController를 메모리에 띄울 때, UserRepository도 같이 띄운다!  // 이것이 DI : 의존성 주입이다!!!
 	private UserRepository userRepository; // UserRepository 타입으로 Spring이 관리하는 객체가 있다면 변수에 넣어달란 의미
+
+	// {id} 주소로 파라미터를 전달 받을 수 있음
+	// http://localhost:8000/blog/dummy/user/5
+	@GetMapping("/dummy/user/{id}")
+	public User detail(@PathVariable int id) {
+		/* user/4 를 찾으면 3까지 밖에 없다 
+		 * DB에서 못 찾아오니까 User 가 null이 될것이다.
+		 * Optional로 User객체를 감싸서 가져오면 null인지 아닌지 판단해서 return할 수 있다. 
+		*/
+		
+		User user = userRepository.findById(id).orElseThrow(new Supplier<IllegalArgumentException>() {
+			@Override
+			public IllegalArgumentException get() {
+				// TODO Auto-generated method stub
+				return new IllegalArgumentException("해당 유저는 없습니다. id :"+id);
+			}
+		});
+		// 람다식을 쓰면 더 짧게 쓸 Supplier 타입을 안써도 된다. 하지만 그냥 위에 방식으로 쓰겠다.
+//		User user = userRepository.findById(id).orElseThrow(()->{
+//			return new IllegalArgumentException("해당 유저는 없습니다. id :"+id);
+//		});
+		
+		/* user 객체는 자바 오브젝트이다.
+		 * 근데 요청은 get이기에 웹 브라우저에서 했다.
+		 * 따라서 user 객체를 웹 브라우저가 이해할 수 있게 json으로 변환을 해야한다.
+		 * 근데 스프링부트는 MessageConverter라는 애가 있다.
+		 * 만약 이와같이 자바 오브젝트를 리턴하게되면 MessageConverter가 작동으로 작동되어 Jackson 라이브러리를 호출한다.
+		 * user 오브젝트를 json으로 변환해서 브라우저한테 던진다.
+		*/
+		return user;
+	}
+	
 	
 	// http://localhost:8000/blog/dummy/join
 	// http 의 body에 username, password, email 데이터를 가지고 요청
