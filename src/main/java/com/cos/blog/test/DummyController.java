@@ -33,7 +33,9 @@ public class DummyController {
 	//  http://localhost:8000/blog/dummy/user?page=0 // <- 이런식으로 특정 페이지를 받아올 수 있다!
 	@GetMapping("/dummy/user")
 	public List<User> pageList(@PageableDefault(size = 2, sort = "id", direction = Direction.DESC) Pageable pageable){
-		List<User> users = userRepository.findAll(pageable).getContent(); // getContent()를 쓰면 pageable 객체 빼고 내용만 가져온다.
+//		List<User> users = userRepository.findAll(pageable).getContent(); // getContent()를 쓰면 pageable 객체 빼고 내용만 가져온다.
+		Page<User> pagingUser = userRepository.findAll(pageable); 
+		List<User> users = pagingUser.getContent(); // 보통 이런식으로 나눈다. 이렇게하면 Page클래스에서 제공하는 함수들을 유용하게 쓸 수 있다.
 		return users;
 	}
 	
