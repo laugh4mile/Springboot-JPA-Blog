@@ -23,17 +23,17 @@ public class DummyController {
 	@Autowired // Spring이 DummyController를 메모리에 띄울 때, UserRepository도 같이 띄운다!  // 이것이 DI : 의존성 주입이다!!!
 	private UserRepository userRepository; // UserRepository 타입으로 Spring이 관리하는 객체가 있다면 변수에 넣어달란 의미
 
-	// http://localhost:8000/blog/dummy/user
-	@GetMapping("/dummy/user")
+	// http://localhost:8000/blog/dummy/users
+	@GetMapping("/dummy/users")
 	public List<User> list(){
 		return userRepository.findAll();
 	}
 	
 	// 한 페이지당 2건에 데이터를 리턴받아보자
-	//  http://localhost:8000/blog/dummy/user/page
-	@GetMapping("/dummy/user/page")
-	public Page<User> pageList(@PageableDefault(size = 2, sort = "id", direction = Direction.DESC) Pageable pageable){
-		Page<User> users = userRepository.findAll(pageable);
+	//  http://localhost:8000/blog/dummy/user?page=0 // <- 이런식으로 특정 페이지를 받아올 수 있다!
+	@GetMapping("/dummy/user")
+	public List<User> pageList(@PageableDefault(size = 2, sort = "id", direction = Direction.DESC) Pageable pageable){
+		List<User> users = userRepository.findAll(pageable).getContent(); // getContent()를 쓰면 pageable 객체 빼고 내용만 가져온다.
 		return users;
 	}
 	
