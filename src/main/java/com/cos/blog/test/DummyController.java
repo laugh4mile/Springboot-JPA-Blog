@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +29,13 @@ public class DummyController {
 		return userRepository.findAll();
 	}
 	
+	// 한 페이지당 2건에 데이터를 리턴받아보자
+	//  http://localhost:8000/blog/dummy/user/page
+	@GetMapping("/dummy/user/page")
+	public Page<User> pageList(@PageableDefault(size = 2, sort = "id", direction = Direction.DESC) Pageable pageable){
+		Page<User> users = userRepository.findAll(pageable);
+		return users;
+	}
 	
 	// {id} 주소로 파라미터를 전달 받을 수 있음
 	// http://localhost:8000/blog/dummy/user/5
