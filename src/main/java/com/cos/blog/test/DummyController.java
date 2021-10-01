@@ -1,5 +1,6 @@
 package com.cos.blog.test;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,13 @@ public class DummyController {
 	@Autowired // Spring이 DummyController를 메모리에 띄울 때, UserRepository도 같이 띄운다!  // 이것이 DI : 의존성 주입이다!!!
 	private UserRepository userRepository; // UserRepository 타입으로 Spring이 관리하는 객체가 있다면 변수에 넣어달란 의미
 
+	// http://localhost:8000/blog/dummy/user
+	@GetMapping("/dummy/user")
+	public List<User> list(){
+		return userRepository.findAll();
+	}
+	
+	
 	// {id} 주소로 파라미터를 전달 받을 수 있음
 	// http://localhost:8000/blog/dummy/user/5
 	@GetMapping("/dummy/user/{id}")
