@@ -22,16 +22,17 @@ public class DummyController {
 	// http://localhost:8000/blog/dummy/user/5
 	@GetMapping("/dummy/user/{id}")
 	public User detail(@PathVariable int id) {
-		/* user/4 를 찾으면 3까지 밖에 없다 
+		/* 
+		 * /dummy/user/4 를 찾으면 찾을 수 없다 (현재 DB에 1~3까지 밖에 없다)
 		 * DB에서 못 찾아오니까 User 가 null이 될것이다.
 		 * Optional로 User객체를 감싸서 가져오면 null인지 아닌지 판단해서 return할 수 있다. 
 		*/
 		
-		User user = userRepository.findById(id).orElseThrow(new Supplier<IllegalArgumentException>() {
+		User user = userRepository.findById(id).orElseThrow(new Supplier<IllegalArgumentException>() { // Supplier는 인터페이스이므로 get() 함수를 오버라이딩 해줘야함
 			@Override
 			public IllegalArgumentException get() {
-				// TODO Auto-generated method stub
-				return new IllegalArgumentException("해당 유저는 없습니다. id :"+id);
+				return new IllegalArgumentException("해당 유저는 없습니다. id :"+id); //IllegalArgumentException는 메시지를 담을 수 있음.
+				// 이제 잘못된 인수가 들어올 경우. 해당 메시지를 리턴한다.
 			}
 		});
 		// 람다식을 쓰면 더 짧게 쓸 Supplier 타입을 안써도 된다. 하지만 그냥 위에 방식으로 쓰겠다.
