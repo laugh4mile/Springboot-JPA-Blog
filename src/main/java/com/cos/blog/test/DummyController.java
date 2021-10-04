@@ -3,6 +3,8 @@ package com.cos.blog.test;
 import java.util.List;
 import java.util.function.Supplier;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +13,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.blog.model.RoleType;
@@ -23,6 +27,34 @@ public class DummyController {
 	@Autowired // Spring이 DummyController를 메모리에 띄울 때, UserRepository도 같이 띄운다!  // 이것이 DI : 의존성 주입이다!!!
 	private UserRepository userRepository; // UserRepository 타입으로 Spring이 관리하는 객체가 있다면 변수에 넣어달란 의미
 
+	// id, email, password를 받으면 해당 id의 email과 password를 변경
+	// http://localhost:8000/blog/dummy/user/1
+	@Transactional // 함수 종료시에 자동 commit이 된다.
+	@PutMapping("/dummy/user/{id}") // detail()과 주소가 같아도 PutMapping이기 때문에 상관없다!
+	public User updateUser(@PathVariable int id, @RequestBody User requestUser) { // json 데이터를 받으려면 @RequestBody라는 어노테이션이 필요하다.
+		System.out.println("id : "+id);
+		System.out.println("password : "+requestUser.getPassword());
+		System.out.println("email : "+requestUser.getEmail());
+		/*
+		 * 요청을 보내면 잘 찍히는것을 볼 수 있다.
+		 * json 데이터를 요청하면 MessageConverter의 Jackson 라이브러리가 변환해서 받아준다.
+		 * 이때 필요한 어노테이션이 @RequestBody이다.
+		 */
+		
+//		업데이트 방법 1. save()를 쓰는법. 		
+//		requestUser.setId(id); // requestUser에 id를 추가해준다.
+//		requestUser.setUsername("ssar");
+//		userRepository.save(requestUser);
+		
+// 		업데이트 방법 2. 더티체킹 -> @Transactional 을 쓰는법.
+		User user = userRepository.findById(id).orElseThrow(()->{ 
+			return new IllegalArgumentException("update 실패! : 해당 id가 존재하지 않습니다.");
+		});
+		user.setPassword(requestUser.getPassword());
+		user.setEmail(requestUser.getEmail());
+		return user; // return을 null로 해도 데이터가 update 된다.
+	}
+	
 	// http://localhost:8000/blog/dummy/users
 	@GetMapping("/dummy/users")
 	public List<User> list(){
