@@ -6,10 +6,12 @@ import java.util.function.Supplier;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +29,18 @@ public class DummyController {
 	@Autowired // Spring이 DummyController를 메모리에 띄울 때, UserRepository도 같이 띄운다!  // 이것이 DI : 의존성 주입이다!!!
 	private UserRepository userRepository; // UserRepository 타입으로 Spring이 관리하는 객체가 있다면 변수에 넣어달란 의미
 
+	// http://localhost:8000/blog/dummy/user/1
+	@DeleteMapping("/dummy/user/{id}")
+	public String deleteUser(@PathVariable int id) {
+		try { // 해당 id가 없는 경우를 대비해야한다.
+			userRepository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) { 
+			return "삭제실패! 존재하지 않는 id 입니다."; 
+		}
+		return "삭제성공! id : "+id;
+	}
+	
+	
 	// id, email, password를 받으면 해당 id의 email과 password를 변경
 	// http://localhost:8000/blog/dummy/user/1
 	@Transactional // 함수 종료시에 자동 commit이 된다.
