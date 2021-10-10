@@ -20,7 +20,7 @@ spring:
     password: cos1234
     
   jpa:
-    open-in-view: true
+    open-in-view: true #Lazy 로딩이 가능해짐. false 일 경우 영속성 컨텍스트의 시작 시점이 Cotroller에서 Service 단으로 내려간다.
     hibernate:
       ddl-auto: update #첫 시작에만 create 해야 한다. 
       naming:

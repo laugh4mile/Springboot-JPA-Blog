@@ -61,9 +61,10 @@ public class DummyController {
 //		userRepository.save(requestUser);
 		
 // 		업데이트 방법 2. 더티체킹 -> @Transactional 을 쓰는법.
-		User user = userRepository.findById(id).orElseThrow(()->{ 
+		User user = userRepository.findById(id).orElseThrow(()->{  // <- 영속화!
 			return new IllegalArgumentException("update 실패! : 해당 id가 존재하지 않습니다.");
 		});
+		// 영속화 시킨 후 그 값을 변경하면 변경을 감지하여 db에 수정을 날림 <- 더티체킹
 		user.setPassword(requestUser.getPassword());
 		user.setEmail(requestUser.getEmail());
 		return user; // return을 null로 해도 데이터가 update 된다.

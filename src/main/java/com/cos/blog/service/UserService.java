@@ -18,13 +18,7 @@ public class UserService {
 	
 //	@PostMapping
 	@Transactional
-	public int 회원가입(User user) {
-		try {
-			userRepository.save(user);
-			return 1;
-		} catch (Exception e) {
-			System.out.println("UserService : 회원가입() : "+e.getMessage());
-		}
-		return -1;
+	public void 회원가입(User user) {
+		userRepository.save(user);
 	}
 }
