@@ -1,8 +1,7 @@
 package com.cos.blog.repository;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.cos.blog.model.User;
 
@@ -18,4 +17,12 @@ public interface UserRepository extends JpaRepository<User, Integer> { // User �
 	 * 그외에 데이터의 insert와 update delete 같은 CRUD는 기본이고 그 외에 많은 기능 지원
 	 * 
 	*/
+	
+	// JPA Naming 전략1
+	// SELECT * FROM user WHERE username=?1 AND password=?2; // ? = 파라미터1, ? = 파라미터2
+	User findByUsernameAndPassword(String username, String password);
+	
+	// JPA Naming 전략2
+//	@Query(value="SELECT * FROM user WHERE username=?1 AND password=?2", nativeQuery = true)
+//	User login(String username, String password);
 }
