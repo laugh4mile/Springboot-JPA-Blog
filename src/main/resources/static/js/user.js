@@ -28,7 +28,7 @@ let index={
 			alert("회원가입이 완료되었습니다.");
 			//alert(resp);
 			//console.log(resp);
-			location.href = "/blog";
+			location.href = "/";
 		}).fail(function(error){ // 실패하면 실행할 부분
 			alert(JSON.stringify(error));
 		}); // ajax 통신을 이용해서 3개의 데이터를 json으로 변경하여 insert 요청!!
@@ -54,7 +54,7 @@ let index={
 			alert("로그인이 완료되었습니다.");
 			//alert(resp);
 			//console.log(resp);
-			location.href = "/blog";
+			location.href = "/";
 		}).fail(function(error){ // 실패하면 실행할 부분
 			alert(JSON.stringify(error));
 		}); // ajax 통신을 이용해서 3개의 데이터를 json으로 변경하여 insert 요청!!
