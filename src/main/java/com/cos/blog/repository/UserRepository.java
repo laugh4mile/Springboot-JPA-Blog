@@ -1,7 +1,6 @@
 package com.cos.blog.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import com.cos.blog.model.User;
 
@@ -18,11 +17,12 @@ public interface UserRepository extends JpaRepository<User, Integer> { // User �
 	 * 
 	*/
 	
+	// 로그인은 이제 security로 할거여서 밑의 코드는 이제 지워도 됨.
 	// JPA Naming 전략1
 	// SELECT * FROM user WHERE username=?1 AND password=?2; // ? = 파라미터1, ? = 파라미터2
-	User findByUsernameAndPassword(String username, String password);
+	//	User findByUsernameAndPassword(String username, String password);
 	
 	// JPA Naming 전략2
-//	@Query(value="SELECT * FROM user WHERE username=?1 AND password=?2", nativeQuery = true)
-//	User login(String username, String password);
+	//	@Query(value="SELECT * FROM user WHERE username=?1 AND password=?2", nativeQuery = true)
+	//	User login(String username, String password);
 }
