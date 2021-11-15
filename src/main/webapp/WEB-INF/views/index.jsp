@@ -2,16 +2,40 @@
 
 <%@ include file="layout/header.jsp"%>
 
-<c:forEach var="board" items="${boards}"> <!-- BoardController에서 뿌려준 모델 (boards)를 items로 받아서 변수 board에 하나씩 담아서 뿌림 -->
-	<div class="container">
+<div class="container">
+	<c:forEach var="board" items="${boards.content}">
+		<!-- BoardController에서 뿌려준 모델 (boards)를 items로 받아서 변수 board에 하나씩 담아서 뿌림 -->
+		<!-- Page이므로 content를 건네줌. -->
 		<div class="card m-2">
 			<div class="card-body">
-				<h4 class="card-title">${board.title}</h4> <!-- ${board.title}라고 하면 Board dto의 getTitle()이 호출된다. 나는 lombok으로 했다. (@Data) -->
+				<h4 class="card-title">${board.title}</h4>
+				<!-- ${board.title}라고 하면 Board dto의 getTitle()이 호출된다. 나는 lombok으로 했다. (@Data) -->
 				<a href="#" class="btn btn-primary">상세보기</a>
 			</div>
 		</div>
-	</div>
-</c:forEach>
+	</c:forEach>
+
+	<ul class="pagination justify-content-center">
+		<!-- bootstrap에서 flax로 정렬할 때의 문법 -->
+		<c:choose>
+			<c:when test="${boards.first}">
+				<li class="page-item disabled"><a class="page-link" href="?page=${boards.number-1}">Previous</a></li>
+			</c:when>
+			<c:otherwise>
+				<li class="page-item"><a class="page-link" href="?page=${boards.number-1}">Previous</a></li>
+			</c:otherwise>
+		</c:choose>
+ 		<c:choose>
+			<c:when test="${boards.last}">
+				<li class="page-item disabled"><a class="page-link" href="?page=${boards.number+1}">Next</a></li>
+			</c:when>
+			<c:otherwise>
+				<li class="page-item"><a class="page-link" href="?page=${boards.number+1}">Next</a></li>
+			</c:otherwise>
+		</c:choose>
+	</ul>
+</div>
+
 
 
 <%@ include file="layout/footer.jsp"%>
