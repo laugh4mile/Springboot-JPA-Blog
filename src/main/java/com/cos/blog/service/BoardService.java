@@ -1,8 +1,9 @@
 package com.cos.blog.service;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,15 +18,15 @@ public class BoardService {
 	@Autowired
 	private BoardRepository boardRepository;
 
-	@Autowired
-	private BCryptPasswordEncoder encoder;
-	
-//	@PostMapping
 	@Transactional
 	public void 글쓰기(Board board, User user) { // title, content
 		board.setCount(0);
 		board.setUser(user);
 		boardRepository.save(board);
+	}
+
+	public List<Board> 글목록() {
+		return boardRepository.findAll();
 	}
 
 //	@Transactional(readOnly = true) // Select할 때 트랜잭션 시작. 서비스 종료시에 트랜잭션 종료(정합성 유지)
