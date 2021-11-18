@@ -10,7 +10,7 @@
 			<div class="card-body">
 				<h4 class="card-title">${board.title}</h4>
 				<!-- ${board.title}라고 하면 Board dto의 getTitle()이 호출된다. 나는 lombok으로 했다. (@Data) -->
-				<a href="#" class="btn btn-primary">상세보기</a>
+				<a href="/board/${board.id}" class="btn btn-primary">상세보기</a>
 			</div>
 		</div>
 	</c:forEach>

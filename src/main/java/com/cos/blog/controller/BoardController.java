@@ -7,6 +7,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.cos.blog.service.BoardService;
 
@@ -23,6 +24,12 @@ public class BoardController {
 	public String index(Model model, @PageableDefault(size = 3, sort = "id", direction = Direction.DESC) Pageable pageable) { // Spring 에서는 데이터를 가져올때 Model이 필요하다.
 		model.addAttribute("boards", boardService.글목록(pageable)); // index 라는 페이지로 boards 가 날라간다!. request 정보라고 생각하자. + pageable을 넘겨주면 페이징을 할 수 있다.
 		return "index"; // viewResolver가 작동
+	}
+	
+	@GetMapping("/board/{id}")
+	public String findById(@PathVariable int id, Model model) {
+		model.addAttribute("board", boardService.글상세보기(id));
+		return "board/detail";
 	}
 
 	// User 권한이 필요
