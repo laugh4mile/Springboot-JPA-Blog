@@ -33,14 +33,13 @@ let index={
 		}); // ajax 통신을 이용해서 3개의 데이터를 json으로 변경하여 insert 요청!!
 	},
 	deleteById:function(){
+		var id =  $("#id").text();
 		$.ajax({
 			type:"DELETE",
-			url:"../api/board",
-			data:JSON.stringify(data), // http body 데이터
-			contentType:"application/json; charset=urf-8", // body 데이터가 어떤 타입인지 (MIME)
+			url:"../api/board/"+id,
 			dataType: "json" // 요청을 서버로해서 응답이 왔을떄 응답된 데이터는 기본적으로 모든것이 문자열 (생긴게 json이라면 => javascript 오브젝트로 변경해줌)
 		}).done(function(resp){ // 정상이면 실행할 부분 위의 dataType에 따라 resp의 타입이 결정된다. defalt는 JSON 인거같다.
-			alert("글쓰기가 완료되었습니다.");
+			alert("글 삭제가 완료되었습니다.");
 			location.href = "/";
 		}).fail(function(error){ // 실패하면 실행할 부분
 			alert(JSON.stringify(error));
