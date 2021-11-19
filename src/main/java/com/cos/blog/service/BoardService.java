@@ -43,6 +43,18 @@ public class BoardService {
 		System.out.println(id);
 		boardRepository.deleteById(id);
 	}
+	
+	@Transactional
+	public void 글수정하기(int id, Board requestBoard) {
+		// 수정을 하기위해선 영속화를 먼저 해야한다.
+		Board board = boardRepository.findById(id)
+				.orElseThrow(()->{
+					return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.");
+				}); // 영속화 완료. 이제 영속성 컨텍스트에 board가 들어왔다.
+		board.setTitle(requestBoard.getTitle());
+		board.setContent(requestBoard.getContent());
+		// 해당 함수가 종료시(Service가 종료될 때) 트랜잭션이 종료됩니다. 이때 더티체킹 - 자동 업데이트가 됨. db flush 
+	}
 
 //	@Transactional(readOnly = true) // Select할 때 트랜잭션 시작. 서비스 종료시에 트랜잭션 종료(정합성 유지)
 //	public User 로그인(User user) {

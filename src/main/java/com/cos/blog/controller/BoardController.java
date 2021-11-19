@@ -31,6 +31,12 @@ public class BoardController {
 		model.addAttribute("board", boardService.글상세보기(id));
 		return "board/detail";
 	}
+	
+	@GetMapping("/board/{id}/updateForm")
+	public String updateForm(@PathVariable int id, Model model) { // Model의 역할은 해당 데이터를 가지고 view 까지 이동하는 역할임.
+		model.addAttribute("board", boardService.글상세보기(id)); // 상세보기를 재활용하자
+		return "board/updateForm";		
+	}
 
 	// User 권한이 필요
 	@GetMapping({"/board/saveForm"}) 
